@@ -1,6 +1,17 @@
+import { UserCreate } from "../../User/application/UserCreate/UserCreate";
+import { UserDelete } from "../../User/application/UserDelete/UserDelete";
+import { UserEdit } from "../../User/application/UserEdit/UserEdit";
 import { UserGetAll } from "../../User/application/UserGetAll/UserGetAll";
+import { UserGetOneById } from "../../User/application/UserGetOneById/UserGetOneById";
+import { inMemoryUserRepository } from "../../User/Infrastructure/inMemoryUserRepository";
+
+const userRepository = new inMemoryUserRepository();
 export const ServiceContainer = {
   user: {
-    getAll: new UserGetAll(),
+    getAll: new UserGetAll(userRepository),
+    getOneById: new UserGetOneById(userRepository),
+    create: new UserCreate(userRepository),
+    edit: new UserEdit(userRepository),
+    delete: new UserDelete(userRepository),
   },
 };

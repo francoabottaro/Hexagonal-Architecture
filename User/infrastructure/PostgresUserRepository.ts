@@ -35,15 +35,7 @@ export class PostgresUserRepository implements UserRepository {
       text: "SELECT * FROM users;",
     };
     const result = await this.client.query<PostgresUser>(query);
-    return result.rows.map(
-      (row) =>
-        new User(
-          new UserId(row.id),
-          new UserName(row.name),
-          new UserEmail(row.email),
-          new UserCreateAt(row.created_at)
-        )
-    );
+    return result.rows.map((row) => this.mapToDomain(row));
   }
   // * Find One User
   async getOneById(id: UserId): Promise<User | null> {
@@ -58,12 +50,7 @@ export class PostgresUserRepository implements UserRepository {
       return null;
     }
     const row = result.rows[0];
-    return new User(
-      new UserId(row.id),
-      new UserName(row.name),
-      new UserEmail(row.email),
-      new UserCreateAt(row.created_at)
-    );
+    return this.mapToDomain(row);
   }
   async edit(user: User): Promise<void> {
     const query = {
@@ -78,5 +65,13 @@ export class PostgresUserRepository implements UserRepository {
       values: [id.value],
     };
     await this.client.query(query);
+  }
+  private mapToDomain(user: PostgresUser): User {
+    return new User(
+      new UserId(user.id),
+      new UserName(user.name),
+      new UserEmail(user.email),
+      new UserCreateAt(user.created_at)
+    );
   }
 }
