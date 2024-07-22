@@ -3,7 +3,7 @@ import { UserDelete } from "../../User/application/UserDelete/UserDelete";
 import { UserEdit } from "../../User/application/UserEdit/UserEdit";
 import { UserGetAll } from "../../User/application/UserGetAll/UserGetAll";
 import { UserGetOneById } from "../../User/application/UserGetOneById/UserGetOneById";
-import { inMemoryUserRepository } from "../../User/Infrastructure/inMemoryUserRepository";
+import { inMemoryUserRepository } from "../../User/infrastructure/inMemoryUserRepository";
 
 const userRepository = new inMemoryUserRepository();
 export const ServiceContainer = {
